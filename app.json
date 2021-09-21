@@ -1,0 +1,20 @@
+{
+    "name": "a-15-assignment-organizer",
+    "scripts": {
+    },
+    "env": {
+    },
+    "formation": {
+      "web": {
+        "quantity": 1
+      }
+    },
+    "addons": [
+      "heroku-postgresql"
+    ],
+    "buildpacks": [
+      {
+        "url": "heroku/python"
+      }
+    ]
+  }
