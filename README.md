@@ -14,8 +14,8 @@ pip install -r requirements.txt
 
 # Credits
 Google Auth Tutorial
-    Title: "User Registration in Django using Google OAuth"
-    Date published: 12/18/2020
-    Author: Geoffrey Mungai
-    URL: https://www.section.io/engineering-education/django-google-oauth/
+   * Title: "User Registration in Django using Google OAuth"
+   * Date published: 12/18/2020
+   * Author: Geoffrey Mungai
+   * URL: https://www.section.io/engineering-education/django-google-oauth/
 
