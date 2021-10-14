@@ -4,3 +4,4 @@ django-heroku
 django-bootstrap-v5
 django-allauth
 dj-database-url
+psycopg2-binary
