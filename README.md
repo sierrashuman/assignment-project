@@ -12,6 +12,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+# Admin Login
+To login into admin use the following credentials:
+Username: superuser
+Password: assignment_org
+
 # Credits
 Google Auth Tutorial
    * Title: "User Registration in Django using Google OAuth"
