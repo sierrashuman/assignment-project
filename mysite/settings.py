@@ -154,14 +154,13 @@ SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Heroku and Postgres setup
+# Configure Heroku and Postgres
 try:
     if 'HEROKU' in os.environ:
-        # Postgres
+        # Postgres configure
         import dj_database_url
         import psycopg2
         DATABASE_URL = os.environ['DATABASE_URL']
-
         conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
