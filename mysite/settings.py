@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import psycopg2
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -81,12 +83,26 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'HEROKU' in os.environ:
+    DATABASE_URL = os.environ['DATABASE_URL']
+    require_ssl = True
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=require_ssl)
+else:
+    DATABASE_URL = "postgres://psql_user:password@localhost:5432/organizer"
+    require_ssl = False
+    conn = psycopg2.connect(DATABASE_URL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'organizer',
+            'USER': 'psql_user',
+            'PASSWORD': 'password',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
     }
-}
+
 
 
 # Password validation
@@ -154,17 +170,8 @@ SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Heroku and Postgres setup
 try:
     if 'HEROKU' in os.environ:
-        # Postgres
-        import dj_database_url
-        import psycopg2
-        DATABASE_URL = os.environ['DATABASE_URL']
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-        DATABASES['default'].update(dj_database_url.config(conn_max_age=600, ssl_require=True))
-
-        # Heroku
         import django_heroku
         django_heroku.settings(locals())
 except ImportError:
