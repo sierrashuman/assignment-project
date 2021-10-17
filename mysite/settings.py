@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import django_heroku
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -155,8 +154,18 @@ SITE_ID = 3
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+# Heroku and Postgres setup
 try:
     if 'HEROKU' in os.environ:
+        # Postgres
+        import dj_database_url
+        import psycopg2
+        DATABASE_URL = os.environ['DATABASE_URL']
+
+        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+        # Heroku
         import django_heroku
         django_heroku.settings(locals())
 except ImportError:
