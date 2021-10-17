@@ -164,7 +164,7 @@ try:
 
         conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-
+        print("TEST:", DATABASES)
         # Heroku
         import django_heroku
         django_heroku.settings(locals())
