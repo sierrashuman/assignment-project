@@ -39,3 +39,12 @@ class UnusablePasswordTest(TestCase):
             User = get_user_model()
             user = User.objects.get(username='bob')
             self.assertFalse(user.has_usable_password())
+
+class CourseListTest(TestCase):
+      def test_number_of_objects(self):
+            course1 = Course.objects.create(name="class1")
+            course2 = Course.objects.create(name="class2")
+            course3 = Course.objects.create(name="class3")
+            c = Course.objects.count()
+            self.assertEqual(c, 3)
+            
