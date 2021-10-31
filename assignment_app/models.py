@@ -16,10 +16,10 @@ class Course(models.Model):
      #   max_length=(4*50)
     #)
 
-    @admin.display(
-         boolean=True,
-         description='Course',
-    )
+    # @admin.display(
+    #      boolean=True,
+    #      description='Course',
+    # )
 
     def __str__(self):
         return self.course
