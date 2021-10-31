@@ -13,28 +13,24 @@ from .models import Course
 # Create your views here.
 
 class IndexView(generic.ListView):
-    template_name = 'templates/courseList.html'
-    context_object_name = 'Course List'
+    model = Course
+    template_name = 'appindex.html'
 
-    def get_queryset(self):
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
-        return Course.objects
 
 class CourseList(generic.ListView):
     model = Course
-    template_name = 'templates/list.html'
-    context_object_name = 'Course List'
+    template_name = 'courselist.html'
+    context_object_name = 'course_list'
 
-class ViewCourse(CreateView):
+    def get_queryset(self):
+        """
+        Return all courses
+        """
+        return Course.objects.all()
+
+class CourseDetailView(generic.DetailView):
     model = Course
-    template_name = 'templates/courses.html'
-    fields = ['name', 'courseID', 'professor', 
-    'course_descrip', 'lecture_times', 'prereqs', 'enrolled']
+    template_name = 'coursedetail.html'
 
-    def get_success_url(self):
-        return reverse('templates:list')
-
-    
+    def get_queryset(self):
+        return Course.objects.all()

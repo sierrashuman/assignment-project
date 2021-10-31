@@ -5,24 +5,16 @@ from django.contrib import admin
 # Create your models here.
 
 class Course(models.Model):
-    course = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     course_id = models.IntegerField()
     professor = models.CharField(max_length=50)
-    course_descrip = models.TextField()
-    lecture_times = models.TextField()
-    #prereqs = models.ListCharField(
-     #   base_field=CharField,
-    #    size=4,
-     #   max_length=(4*50)
-    #)
+    course_description = models.TextField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
 
-    # @admin.display(
-    #      boolean=True,
-    #      description='Course',
-    # )
 
     def __str__(self):
-        return self.course
+        return self.name
 
     
 # class User(models.Model):
