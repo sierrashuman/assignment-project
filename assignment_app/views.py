@@ -34,3 +34,9 @@ class CourseDetailView(generic.DetailView):
 
     def get_queryset(self):
         return Course.objects.all()
+'''
+Declare function to render inclusiontag.html file
+to load inclusion tag
+'''
+def inclusiontag(request):
+    return render(request, "inclusiontag.html")
