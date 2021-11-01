@@ -1,6 +1,7 @@
-from django.test import TestCase, Client, Course
+from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.contrib import auth
+from .model import Course
 
 # NOTE: All tests must start with the word 'test'
 
