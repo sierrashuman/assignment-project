@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, Course
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 
@@ -40,11 +40,11 @@ class UnusablePasswordTest(TestCase):
             user = User.objects.get(username='bob')
             self.assertFalse(user.has_usable_password())
 
-class CourseListTest(TestCase):
+class CourseListCountTest(TestCase):
       def test_number_of_objects(self):
             course1 = Course.objects.create(name="class1")
             course2 = Course.objects.create(name="class2")
             course3 = Course.objects.create(name="class3")
-            c = Course.objects.count()
+            c = Course.objects.all().count()
             self.assertEqual(c, 3)
-            
+
