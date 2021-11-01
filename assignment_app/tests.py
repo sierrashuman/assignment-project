@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.contrib import auth
-from .model import Course
+from .models import Course
 
 # NOTE: All tests must start with the word 'test'
 
@@ -46,6 +46,6 @@ class CourseListCountTest(TestCase):
             course1 = Course.objects.create(name="class1")
             course2 = Course.objects.create(name="class2")
             course3 = Course.objects.create(name="class3")
-            c = Course.objects.all().count()
+            c = get_queryset().count()
             self.assertEqual(c, 3)
 
