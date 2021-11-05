@@ -1,6 +1,8 @@
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.contrib import auth
+from .views import PDF, Course
+import datetime
 
 # NOTE: All tests must start with the word 'test'
 
@@ -39,3 +41,32 @@ class UnusablePasswordTest(TestCase):
             User = get_user_model()
             user = User.objects.get(username='bob')
             self.assertFalse(user.has_usable_password())
+
+class UploadPDFTest(TestCase):
+      def setUp(self):
+            User = get_user_model()
+            user = User.objects.create(username='bob')
+            user.set_unusable_password()
+            user.save()
+
+            course = Course.objects.create(
+                  name="test_course",
+                  course_id=1234,
+                  professor="professor",
+                  course_description="simple",
+                  start_time='12:00',
+                  end_time='1:00'
+            )
+
+            PDF.objects.create(
+                  title="test_pdf",
+                  course=course,
+                  uploader=user,
+                  datetime=datetime.datetime.strptime('2021-11-01', '%Y-%m-%d'),
+                  pdf_file="fake/pdf/url"
+            )
+
+      def test_pdf_in_database(self):
+            pdf = PDF.objects.get(title="test_pdf")
+            self.assertEquals(pdf.course.name, 'test_course')
+            self.assertEquals(pdf.uploader.username, 'bob')

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body style="background-color:rgb(231, 238, 91);">
+    <center>
+        <h2 style="color:rgb(22, 5, 97)">All currently logged in users:</h2>
+        {% load inclusiontag %}
+        {% render_logged_in_user_list %}
+    </center>
+</body>
+{% endblock %}

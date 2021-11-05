@@ -1,3 +1,7 @@
-This is the course detail page for {{course.name}}. We should probably add more here.
-<br>
-<a href="{% url 'app:courselist'%}">Return</a>
+{% extends "base.html" %}
+
+{% block content %}
+    This is the course detail page for {{course.name}}. We should probably add more here.
+    <br>
+    <a href="{% url 'app:courselist'%}">Return</a>
+{% endblock %}
