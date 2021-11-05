@@ -30,8 +30,8 @@ This will take care of all bootstrap imports so no need to do that. Then, the HT
 {% block content %}
 ...HTML Stuff
 {% endblock %}
-
 ```
+See [appindex.html](https://github.com/uva-cs3240-f21/project-a-15/blob/main/assignment_app/templates/appindex.html) for an example.
 
 
 # Credits
