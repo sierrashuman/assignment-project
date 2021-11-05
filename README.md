@@ -19,6 +19,21 @@ Username: superuser
 Password: assignment_org
 ```
 
+# Templating Our HTML
+To make the website more consistent I implemented a `base.html` file that can just be pulled down
+in any HTML file. In all new templates the first line should be:
+```
+{% extends "base.html" %}
+```
+This will take care of all bootstrap imports so no need to do that. Then, the HTML to follow needs to be contained in:
+```
+{% block content %}
+...HTML Stuff
+{% endblock %}
+
+```
+
+
 # Credits
 Google Auth Tutorial
    * Title: "User Registration in Django using Google OAuth"
