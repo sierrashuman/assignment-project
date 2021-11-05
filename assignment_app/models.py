@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
-
+from django.core.validators import FileExtensionValidator
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
@@ -20,9 +20,16 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
+class PDF(models.Model):
+    title = models.CharField(max_length=256)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    uploader = models.ForeignKey(User, on_delete=models.CASCADE)
+    datetime = models.DateTimeField()
+    pdf_file = models.FileField(upload_to='pdfs/', validators=[FileExtensionValidator(['pdf'])])
+
+    def __str__(self):
+        return self.title
     
 class Enrollment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    
-

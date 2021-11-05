@@ -6,9 +6,11 @@ from django.urls import reverse
 from django.views import generic
 from django.views.generic.edit import CreateView
 from django.utils import timezone
-from django.shortcuts import get_object_or_404, render
-
-from .models import Course
+from django.shortcuts import get_object_or_404, render, redirect
+from django.core.files.storage import FileSystemStorage
+from .models import Course, PDF
+from .forms import PDFForm
+import datetime
 
 # Create your views here.
 
@@ -40,3 +42,28 @@ to load inclusion tag
 '''
 def inclusiontag(request):
     return render(request, "inclusiontag.html")
+
+
+def upload_pdf(request):
+    if request.method == 'POST':
+        form = PDFForm(request.POST, request.FILES)
+        if form.is_valid():
+            pdf = form.save(commit=False)
+            pdf.datetime = datetime.datetime.now()
+            pdf.uploader = request.user
+            pdf.save()
+            return redirect('/app/pdf_list')
+    else:
+        form = PDFForm()
+    return render(request, 'upload_pdf.html', {'form': form})
+
+class PDFList(generic.ListView):
+    model = PDF
+    template_name = 'pdf_list.html'
+    context_object_name = 'pdf_list'
+
+    def get_queryset(self):
+        """
+        Return all courses
+        """
+        return PDF.objects.all()
