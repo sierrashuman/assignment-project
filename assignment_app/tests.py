@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.contrib import auth
-from .models import Course, PDF
+from .models import Course, PDF, Enrollment
 import datetime
 
 # NOTE: All tests must start with the word 'test'
@@ -43,11 +43,49 @@ class UnusablePasswordTest(TestCase):
             self.assertFalse(user.has_usable_password())
 
 class CourseListCountTest(TestCase):
+      def setUp(self):
+            course1 = Course.objects.create(
+                  name="course1",
+                  course_mnemonic = "CR 1000",
+                  professor="professor",
+                  course_description="simple",
+                  start_time='12:00',
+                  end_time='1:00',
+                  monday = True,
+                  tuesday = False,
+                  wednesday = True,
+                  thursday = False,
+                  friday = True
+            )
+            course2 = Course.objects.create(
+                  name="course2",
+                  course_mnemonic = "CR 2000",
+                  professor="professor",
+                  course_description="simple",
+                  start_time='12:00',
+                  end_time='1:00',
+                  monday = True,
+                  tuesday = False,
+                  wednesday = True,
+                  thursday = False,
+                  friday = True,
+            )
+            course3 = Course.objects.create(
+                  name="course3",
+                  course_mnemonic = "CR 3000",
+                  professor="professor",
+                  course_description="simple",
+                  start_time='12:00',
+                  end_time='1:00',
+                  monday = True,
+                  tuesday = False,
+                  wednesday = True,
+                  thursday = False,
+                  friday = True,
+            )
+
       def test_number_of_objects(self):
-            course1 = Course.objects.create(name="class1")
-            course2 = Course.objects.create(name="class2")
-            course3 = Course.objects.create(name="class3")
-            c = get_queryset().count()
+            c = Course.objects.get_queryset().count()
             self.assertEqual(c, 3)
 
 class UploadPDFTest(TestCase):
@@ -59,11 +97,16 @@ class UploadPDFTest(TestCase):
 
             course = Course.objects.create(
                   name="test_course",
-                  course_id=1234,
+                  course_mnemonic = "TS 1000",
                   professor="professor",
                   course_description="simple",
                   start_time='12:00',
-                  end_time='1:00'
+                  end_time='1:00',
+                  monday = True,
+                  tuesday = False,
+                  wednesday = True,
+                  thursday = False,
+                  friday = True,
             )
 
             PDF.objects.create(
