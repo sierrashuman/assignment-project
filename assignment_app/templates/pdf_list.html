@@ -4,13 +4,13 @@
 {% block content %}
     <h2>PDF List</h2>
 
-    <table>
+    <table class="table">
         <thead>
-            <tr>Title</tr>
-            <tr>Course</tr>
-            <tr>Uploaded by</tr>
-            <tr>Uploaded at</tr>
-            <tr>Link</tr>
+            <th scope="column">Title</th>
+            <th scope="column">Course</th>
+            <th scope="column">Uploaded by</th>
+            <th scope="column">Uploaded at</th>
+            <th scope="column">Link</th>
         </thead>
         <tbody>
             {% for pdf in pdf_list %}
@@ -20,7 +20,7 @@
                 <td>{{ pdf.uploader }}</td>
                 <td>{{ pdf.datetime }}</td>
                 <td>
-                    <a href="{{ pdf.pdf_file.url }}">
+                    <a href="{{ pdf.pdf_file.url }}" class="btn btn-sm btn-primary">
                         View PDF
                     </a>
                 </td>
@@ -28,5 +28,5 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="/app/upload_pdf">Upload a PDF</a>
+    <a href="{% url 'app:upload_pdf' %}" class="btn btn-primary">Upload a PDF</a>
 {% endblock %}
