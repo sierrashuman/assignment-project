@@ -9,4 +9,4 @@ class PDFForm(forms.ModelForm):
 class EnrollmentForm(forms.ModelForm):
     class Meta:
         model = Enrollment
-        fields = ('user', 'course')
+        fields = ('student', 'course')

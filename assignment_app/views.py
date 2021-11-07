@@ -70,8 +70,8 @@ class PDFList(generic.ListView):
 
 class EnrollList(generic.ListView):
     model = Enrollment
-    template_name = 'enroll_list.html'
-    context_object_name = 'enroll_list'
+    template_name = 'enroll_course.html'
+    context_object_name = 'enroll_course'
 
     def get_queryset(self):
         """
@@ -81,11 +81,11 @@ class EnrollList(generic.ListView):
 
 def enroll_course(request):
     if request.method == 'POST':
-        enrolled = EnrollmentForm(request.POST, request.FILES)
-        if enrolled.is_valid():
-            course = enrolled.save(commit=False)
+        enrolled_form = EnrollmentForm(request.POST)
+        if enrolled_form.is_valid():
+            course = enrolled_form.save(commit=False)
             course.save()
-            return redirect('/app/enroll_list')
+            return redirect('/app/enroll_course')
     else:
-        form = EnrollmentForm()
-    return render(request, 'enroll_course.html', {'form': form})
+        enrolled_form = EnrollmentForm()
+    return render(request, 'enroll_course.html', {'form': enrolled_form})
