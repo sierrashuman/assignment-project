@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.files.storage import FileSystemStorage
 from .models import Course, PDF, Enrollment
-from .forms import PDFForm, EnrollmentForm
+from .forms import PDFForm, EnrollmentForm, StudentForm
 import datetime
 
 # Create your views here.
@@ -81,11 +81,20 @@ class EnrollList(generic.ListView):
 
 def enroll_course(request):
     if request.method == 'POST':
+        print(True)
         enrolled_form = EnrollmentForm(request.POST)
+        student_form = StudentForm(request.POST)
         if enrolled_form.is_valid():
             course = enrolled_form.save(commit=False)
             course.save()
+            return
+        if student_form.is_valid():
+            print(True)
+            student = student_form.save(commit=False)
+            student.user = request.user
+            student.save()
             return redirect('/app/enroll_course')
     else:
         enrolled_form = EnrollmentForm()
-    return render(request, 'enroll_course.html', {'form': enrolled_form})
+        student_form = StudentForm()
+    return render(request, 'enroll_course.html', {'enrolled_form': enrolled_form, 'student_form': student_form})

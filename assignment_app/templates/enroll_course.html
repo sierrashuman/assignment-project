@@ -7,7 +7,12 @@
     <h2>Upload a PDF!</h2>
     <form method="post"></form>
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ student_form|crispy }}
+        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Upload PDF</button>
+    </form>
+    <form method="post"></form>
+        {% csrf_token %}
+        {{ enrolled_form|crispy }}
         <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Upload PDF</button>
     </form>
 {% endblock %}

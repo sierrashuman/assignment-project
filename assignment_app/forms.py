@@ -1,5 +1,5 @@
 from django import forms
-from .models import PDF, Enrollment
+from .models import PDF, Enrollment, Student
 
 class PDFForm(forms.ModelForm):
     class Meta:
@@ -9,4 +9,9 @@ class PDFForm(forms.ModelForm):
 class EnrollmentForm(forms.ModelForm):
     class Meta:
         model = Enrollment
-        fields = ('student', 'course')
+        fields = ('student','course')
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ('major', 'grad_year')
