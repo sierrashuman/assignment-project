@@ -81,7 +81,6 @@ class EnrollList(generic.ListView):
 
 def enroll_course(request):
     if request.method == 'POST':
-        print(True)
         enrolled_form = EnrollmentForm(request.POST)
         student_form = StudentForm(request.POST)
         if enrolled_form.is_valid():
@@ -89,7 +88,6 @@ def enroll_course(request):
             course.save()
             return
         if student_form.is_valid():
-            print(True)
             student = student_form.save(commit=False)
             student.user = request.user
             student.save()

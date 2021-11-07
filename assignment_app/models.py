@@ -37,11 +37,11 @@ class Student(models.Model):
     grad_year = models.CharField(max_length=4)
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
 class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.student
+        return self.student + "_" + self.course

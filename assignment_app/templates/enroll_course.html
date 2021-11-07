@@ -4,15 +4,15 @@
 
 
 {% block content %}
-    <h2>Upload a PDF!</h2>
-    <form method="post"></form>
+    <h2>Enroll in a Course!</h2>
+    <form method="post">
         {% csrf_token %}
         {{ student_form|crispy }}
-        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Upload PDF</button>
+        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Update</button>
     </form>
-    <form method="post"></form>
+    <form method="post">
         {% csrf_token %}
         {{ enrolled_form|crispy }}
-        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Upload PDF</button>
+        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Enroll</button>
     </form>
 {% endblock %}
