@@ -26,7 +26,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view(), name="logout"),
     path('app/', include('assignment_app.urls', namespace="app")),
-]
+] 
 
 # For file uploading on local development
 if settings.DEBUG:
