@@ -1,7 +1,7 @@
 from django import forms
-from .models import PDF
 from django.forms import ModelForm, DateInput
 from assignment_app.models import Event
+from .models import PDF, Enrollment, Student
 
 class PDFForm(forms.ModelForm):
     class Meta:
@@ -23,3 +23,13 @@ class EventForm(ModelForm):
     # input_formats to parse HTML5 datetime-local input to datetime field
             self.fields['start_time'].input_formats = ('%Y-%m-%dT%H:%M',)
             self.fields['end_time'].input_formats = ('%Y-%m-%dT%H:%M',)
+            
+class EnrollmentForm(forms.ModelForm):
+    class Meta:
+        model = Enrollment
+        fields = ('student','course')
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ('major', 'grad_year')

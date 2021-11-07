@@ -42,9 +42,18 @@ class Event(models.Model):
         url = reverse('event_edit', args=(self.id,))
         return f'<a href="{url}"> {self.title} </a>'
     
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    major = models.CharField(max_length=256)
+    grad_year = models.CharField(max_length=4)
+
+    def __str__(self):
+        return self.user.username
+
 class Enrollment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
-    
-
+    def __str__(self):
+        return self.student + "_" + self.course
