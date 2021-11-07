@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.files.storage import FileSystemStorage
-from .models import Course, PDF
+from .models import Course, PDF, Enrollment
 from .forms import PDFForm
 import datetime
 
@@ -67,3 +67,14 @@ class PDFList(generic.ListView):
         Return all courses
         """
         return PDF.objects.all()
+
+class CourseStudents(generic.ListView):
+    model = Enrollment
+    template_name = 'coursestudents.html'
+    context_object_name = 'coursestudents'
+
+    def get_queryset(self):
+        """
+        Return all students
+        """
+        return Enrollment.objects.all()

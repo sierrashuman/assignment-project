@@ -11,32 +11,25 @@
                             <li>Start time: {{course.start_time}}</li>
                             <li>End time: {{course.end_time}}</li>
                             <li>Days taught: </li>
-                            <div class="list-group-item text-center">
+                            <div class="text-center">
                                 {% if course.monday %}
                                     <li>Monday</li>
                                     {% endif %}
-                            </div>
-                            <div class="list-group-item text-center">
                                 {% if course.tuesday %}
                                     <li>Tuesday</li>
-                                    {% endif %}
-                            </div>
-                            <div class="list-group-item text-center">
+                                {% endif %}
                                 {% if course.wednesday %}
                                     <li>Wednesday</li>
-                                    {% endif %}
-                            </div>
-                            <div class="list-group-item text-center">
+                                {% endif %}
                                 {% if course.thursday %}
                                     <li>Thursday</li>
-                                    {% endif %}
-                            </div>
-                            <div class="list-group-item text-center">
+                                {% endif %}
                                 {% if course.friday %}
                                     <li>Friday</li>
-                                    {% endif %}
+                                {% endif %}
                             </div>
-                        </ul>
+                            <li class="list-group-item text-center"><a href="{% url 'app:coursestudents' %}">Enrollment List</a>
+                       </ul>
                     </li>       
     </div>
 </div>
