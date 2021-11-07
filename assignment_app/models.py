@@ -33,3 +33,7 @@ class PDF(models.Model):
 class Enrollment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+class UserProfile(models.Model):
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+    enrolled = models.ForeignKey(Course, on_delete=models.CASCADE)

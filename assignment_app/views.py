@@ -8,8 +8,8 @@ from django.views.generic.edit import CreateView
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.files.storage import FileSystemStorage
-from .models import Course, PDF
-from .forms import PDFForm
+from .models import Course, PDF, Enrollment
+from .forms import PDFForm, EnrollmentForm
 import datetime
 
 # Create your views here.
@@ -67,3 +67,25 @@ class PDFList(generic.ListView):
         Return all courses
         """
         return PDF.objects.all()
+
+class EnrollList(generic.ListView):
+    model = Enrollment
+    template_name = 'enroll_list.html'
+    context_object_name = 'enroll_list'
+
+    def get_queryset(self):
+        """
+        Return all enrollments
+        """
+        return Enrollment.objects.all()
+
+def enroll_course(request):
+    if request.method == 'POST':
+        enrolled = EnrollmentForm(request.POST, request.FILES)
+        if enrolled.is_valid():
+            course = enrolled.save(commit=False)
+            course.save()
+            return redirect('/app/enroll_list')
+    else:
+        form = EnrollmentForm()
+    return render(request, 'enroll_course.html', {'form': form})

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+    This is the enrollment page for {{user.name}}. We should probably add more here.
+    <br>
+    <a href="{% url 'app:courselist'%}">Return</a>
+{% endblock %}

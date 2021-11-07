@@ -9,4 +9,5 @@ urlpatterns = [
     path('upload_pdf/', views.upload_pdf, name='upload_pdf'),
     path('pdf_list/', views.PDFList.as_view(), name='pdf_list'),
     path('inctag/',  views.inclusiontag),
+    path('enroll/', views.EnrollList.as_view(), name='enroll_course')
 ]
