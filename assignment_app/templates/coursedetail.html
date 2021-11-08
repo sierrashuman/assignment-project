@@ -1,7 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-    This is the course detail page for {{course.name}}. We should probably add more here.
+<div class="container">
     <br>
-    <a href="{% url 'app:courselist'%}">Return</a>
+    <div class="row">
+                    <li class="list-group-item text-center">
+                        <ul class="list-group">
+                            <li>Course code: {{course.mnemonic}}</li>
+                            <li>Professor: {{course.professor}}</li>
+                            <li>Start time: {{course.start_time}}</li>
+                            <li>End time: {{course.end_time}}</li>
+                            <li>Days taught: </li>
+                            <div class="text-center">
+                                {% if course.monday %}
+                                    <li>Monday</li>
+                                    {% endif %}
+                                {% if course.tuesday %}
+                                    <li>Tuesday</li>
+                                {% endif %}
+                                {% if course.wednesday %}
+                                    <li>Wednesday</li>
+                                {% endif %}
+                                {% if course.thursday %}
+                                    <li>Thursday</li>
+                                {% endif %}
+                                {% if course.friday %}
+                                    <li>Friday</li>
+                                {% endif %}
+                            </div>
+                            <li class="list-group-item text-center"><a href="{% url 'app:coursestudents' %}">Enrollment List</a>
+                       </ul>
+                    </li>       
+    </div>
+</div>
+
+    <a class="btn btn-primary" href="{% url 'app:courselist'%}">Return to course list</a>
 {% endblock %}
