@@ -76,16 +76,7 @@ class PDFList(generic.ListView):
         """
         return PDF.objects.all()
 
-class CourseStudents(generic.ListView):
-    model = Enrollment
-    template_name = 'coursestudents.html'
-    context_object_name = 'coursestudents'
 
-    def get_queryset(self):
-        """
-        Return all students
-        """
-        return Enrollment.objects.all()
 class CalendarView(generic.ListView):
     model = Event
     template_name = 'assignment_app/calendar.html'
@@ -165,3 +156,14 @@ def enroll_course(request):
         enrolled_form = EnrollmentForm()
         student_form = StudentForm()
     return render(request, 'enroll_course.html', {'enrolled_form': enrolled_form, 'student_form': student_form})
+
+class CourseStudents(generic.ListView):
+    model = Enrollment
+    template_name = 'coursestudents.html'
+    context_object_name = 'coursestudents'
+
+    def get_queryset(self):
+        """
+        Return all students
+        """
+        return Enrollment.objects.all()

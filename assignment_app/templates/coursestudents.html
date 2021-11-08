@@ -2,11 +2,17 @@
 
 {% block content %}
 <h2>List of Enrolled Students</h2>
-
-
-
-
-
-
-<a class="btn btn-primary" href="{% url 'app:coursedetail'%}">Return to course information</a>
+    <table class="table">
+        <thead>
+            <th scope="column">Student</th>            
+        </thead>
+        <tbody>
+            {% for enrollment in coursestudents %}
+                <tr>
+                    <td>{{ enrollment.student }}</td>    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<a class="btn btn-primary" href="{% url 'app:coursedetail' course.id%}">Return to course information</a>
 {% endblock %}

@@ -9,9 +9,9 @@
             {% if course_list %}
                 <ul class="list-group">
                 {% for course in course_list %}
-                    <li class="list-group-item text-center"><h4><a href="{% url 'app:coursedetail' course.id %}">{{ course.name}}</a></h4>
+                    <li class="list-group-item text-center"><h4><a href="{% url 'app:coursedetail' course.id %}">{{course.name}}</a></h4>
                         <ul class="list-group">
-                            <li>Course code: {{course.course_id}}</li>
+                            <li>Course code: {{course.mnemonic}}</li>
                             <li>Professor: {{course.professor}}</li>
                             <li>Start time: {{course.start_time}}</li>
                             <li>End time: {{course.end_time}}</li>
