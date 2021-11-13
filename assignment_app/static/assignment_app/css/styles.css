@@ -1,4 +1,3 @@
-body {background-color: rgb(147, 224, 226);}
 
 .calendar {
     width: 98%;
@@ -14,6 +13,7 @@ body {background-color: rgb(147, 224, 226);}
     padding: 10px;
     text-align: center;
     font-size: 18px;
+    color: rgb(123, 195, 198);
   }
   
   .calendar td {

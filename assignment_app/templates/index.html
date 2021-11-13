@@ -1,17 +1,35 @@
-{% extends "base.html" %}
 {% load socialaccount %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
 
-{% block content %}
-  <h1>My Google OAuth Project </h1>
-  {% if user.is_authenticated %}
-    <p>Welcome, You are logged in as {{ user.username }}</p>
-    <a href="{% url 'app:index'%}">Continue to assignment application</a>
-  {% else %}
-    <a href="{% provider_login_url 'google' %}">Login With Google</a>
-  {% endif %}
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+        <a href="/" class="navbar-brand">The Assignment Organizer</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        </div>
+    </nav>
 
-  <form action="/app/inctag">
-    <input type="submit" value="See Who's Online">
-  </form>
-{% endblock %}
+    <main class="container">
+        <div class="d-flex flex-column align-items-center">
+             <h1> Login </h1>
+            <br>
+            {% if user.is_authenticated %}
+                <p>Welcome, you are logged in as {{ user.username }}.</p>
+                <a class="btn btn-primary" href="{% url 'app:index'%}">Continue to assignment application</a>
+            {% else %}
+                <a class="btn btn-primary" href="{% provider_login_url 'google' %}">Login With Google</a>
+            {% endif %}
+        </div>
+    </main>
+</body>
+
+
+
+
+
+
+
 
