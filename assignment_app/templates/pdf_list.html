@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2>PDF List</h2>
+
+    <table class="table">
+        <thead>
+            <th scope="column">Title</th>
+            <th scope="column">Course</th>
+            <th scope="column">Uploaded by</th>
+            <th scope="column">Uploaded at</th>
+            <th scope="column">Link</th>
+        </thead>
+        <tbody>
+            {% for pdf in pdf_list %}
+            <tr>
+                <td>{{ pdf.title }}</td>
+                <td>{{ pdf.course }}</td>
+                <td>{{ pdf.uploader }}</td>
+                <td>{{ pdf.datetime }}</td>
+                <td>
+                    <a href="{{ pdf.pdf_file.url }}" class="btn btn-sm btn-primary">
+                        View PDF
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'app:upload_pdf' %}" class="btn btn-primary">Upload a PDF</a>
+{% endblock %}

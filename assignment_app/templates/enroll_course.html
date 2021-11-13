@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <h2>Enroll in a Course!</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ student_form|crispy }}
+        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Update</button>
+    </form>
+    <form method="post">
+        {% csrf_token %}
+        {{ enrolled_form|crispy }}
+        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Enroll</button>
+    </form>
+{% endblock %}

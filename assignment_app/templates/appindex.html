@@ -1,5 +1,11 @@
-<h1>Assignment App Home</h1>
+{% extends "base.html" %}
 
-<a href="{% url 'app:courselist' %}">View all courses</a>
-<br>
-<a href="{% url 'logout' %}">Logout</a>
+{% block content %}
+    <h1>Assignment App Home</h1>
+
+    <a href="{% url 'app:courselist' %}" class="btn btn-primary">View all courses</a>
+    <br>
+    <a href="{% url 'app:pdf_list' %}" class="btn btn-primary">View all PDFs</a>
+    <br>
+    <a href="{% url 'app:upload_pdf' %}" class="btn btn-primary">Upload a PDF</a>
+{% endblock %}

@@ -1,36 +1,31 @@
-{% load static %}
-{% load bootstrap5 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-{% bootstrap_messages %}
+{% extends "base.html" %}
 
+{% block content %}
 <div class="container">
-        <br>
-        <div class="row">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4">
-                {% if course_list %}
-                    <ul class="list-group">
-                    {% for course in course_list %}
-                        <li class="list-group-item text-center"><h4><a href="{% url 'app:coursedetail' course.id %}">{{ course.name}}</a></h4>
-                            <ul class="list-group">
-                                <li>Course code: {{course.course_id}}</li>
-                                <li>Professor: {{course.professor}}</li>
-                                <li>Start time: {{course.start_time}}</li>
-                                <li>End time: {{course.end_time}}</li>
-                            </ul>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No courses are available.</p>
-                {% endif %}
-            </div>
-            <div class="col-sm-4"></div>
+    <br>
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            {% if course_list %}
+                <ul class="list-group">
+                {% for course in course_list %}
+                    <li class="list-group-item text-center"><h4><a href="{% url 'app:coursedetail' course.id %}">{{course.name}}</a></h4>
+                        <ul class="list-group">
+                            <li>Course code: {{course.mnemonic}}</li>
+                            <li>Professor: {{course.professor}}</li>
+                            <li>Start time: {{course.start_time}}</li>
+                            <li>End time: {{course.end_time}}</li>
+                        </ul>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No courses are available.</p>
+            {% endif %}
         </div>
+        <div class="col-sm-4"></div>
     </div>
+</div>
 
     <a class="btn btn-primary" href="{% url 'app:index' %}">Return to home page</a>
-
-
-
+{% endblock %}

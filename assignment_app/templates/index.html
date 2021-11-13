@@ -1,19 +1,17 @@
+{% extends "base.html" %}
 {% load socialaccount %}
-<html>
-<body>
-<h1>My Google OAuth Project </h1>
-{% if user.is_authenticated %}
-  <p>Welcome, You are logged in as {{ user.username }}</p>
-  <a href="{% url 'app:index'%}">Continue to assignment application</a>
-{% else %}
-  <a href="{% provider_login_url 'google' %}">Login With Google</a>
-{% endif %}
-</body>
 
-<form action="/inctag">
-  <input type="submit" value="See Who's Online">
-</form>
+{% block content %}
+  <h1>My Google OAuth Project </h1>
+  {% if user.is_authenticated %}
+    <p>Welcome, You are logged in as {{ user.username }}</p>
+    <a href="{% url 'app:index'%}">Continue to assignment application</a>
+  {% else %}
+    <a href="{% provider_login_url 'google' %}">Login With Google</a>
+  {% endif %}
 
-
-</html>
+  <form action="/app/inctag">
+    <input type="submit" value="See Who's Online">
+  </form>
+{% endblock %}
 
