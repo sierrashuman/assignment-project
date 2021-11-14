@@ -28,11 +28,12 @@
                                     <li>Friday</li>
                                 {% endif %}
                             </div>
-                            <li class="list-group-item text-center"><a href="{% url 'app:coursestudents' %}">Enrollment List</a>
+                            <li>Course Description: {{course.description}}</li>
+                        
                        </ul>
                     </li>       
     </div>
 </div>
-
-    <a class="btn btn-primary" href="{% url 'app:courselist'%}">Return to course list</a>
+    <a class="btn btn-primary" href="{% url 'app:coursestudents' %}">Enrollment List</a>
+    <a class="btn btn-primary" href="{% url 'app:courselist' %}">Return to course list</a>
 {% endblock %}
