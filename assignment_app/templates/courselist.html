@@ -10,10 +10,12 @@
                 <ul class="list-group">
                 {% for course in course_list %}
                     <li class="list-group-item text-center"><h4><a href="{% url 'app:coursedetail' course.id %}">{{course.name}}</a></h4>
-                        Course code: {{course.mnemonic}} <br>
-                        Professor: {{course.professor}} <br>
-                        Start time: {{course.start_time}} <br>
-                        End time: {{course.end_time}} <br>
+                        <ul class="list-group">
+                            <li>Course code: {{course.course_mnemonic}}</li>
+                            <li>Professor: {{course.professor}}</li>
+                            <li>Start time: {{course.start_time}}</li>
+                            <li>End time: {{course.end_time}}</li>
+                        </ul>
                     </li>
                 {% endfor %}
                 </ul>
@@ -24,4 +26,6 @@
         <div class="col-sm-4"></div>
     </div>
 </div>
+
+    <a class="btn btn-primary" href="{% url 'app:index' %}">Return to home page</a>
 {% endblock %}

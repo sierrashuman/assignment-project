@@ -6,13 +6,13 @@
         <thead>
             <th scope="column">Student</th>            
         </thead>
-        <tbody>
+        <!-- <tbody>
             {% for enrollment in coursestudents %}
                 <tr>
                     <td>{{ enrollment.student }}</td>    
                 </tr>
             {% endfor %}
-        </tbody>
+        </tbody> -->
     </table>
-<a class="btn btn-primary" href="{% url 'app:coursedetail' course.id%}">Return to course information</a>
+<a class="btn btn-primary" href="{% url 'app:coursedetail' course.id %}">Return to course information</a>
 {% endblock %}
