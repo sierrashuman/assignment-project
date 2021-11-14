@@ -6,7 +6,7 @@
     <div class="row">
                     <li class="list-group-item text-center">
                         <ul class="list-group">
-                            <li>Course code: {{course.mnemonic}}</li>
+                            <li>Course code: {{course.course_mnemonic}}</li>
                             <li>Professor: {{course.professor}}</li>
                             <li>Start time: {{course.start_time}}</li>
                             <li>End time: {{course.end_time}}</li>
@@ -28,12 +28,12 @@
                                     <li>Friday</li>
                                 {% endif %}
                             </div>
-                            <li>Course Description: {{course.description}}</li>
+                            <li>Course Description: {{course.course_description}}</li>
                         
                        </ul>
                     </li>       
     </div>
 </div>
-    <a class="btn btn-primary" href="{% url 'app:coursestudents' %}">Enrollment List</a>
+   <!-- <a class="btn btn-primary" href="{% url 'app:coursestudents' %}">Enrollment List</a> -->
     <a class="btn btn-primary" href="{% url 'app:courselist' %}">Return to course list</a>
 {% endblock %}
