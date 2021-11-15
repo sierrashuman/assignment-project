@@ -55,7 +55,8 @@ class CourseListCountTest(TestCase):
                   tuesday = False,
                   wednesday = True,
                   thursday = False,
-                  friday = True
+                  friday = True,
+                  course_id = '2222'
             )
             course2 = Course.objects.create(
                   name="course2",
@@ -69,6 +70,7 @@ class CourseListCountTest(TestCase):
                   wednesday = True,
                   thursday = False,
                   friday = True,
+                  course_id = '11111'
             )
             course3 = Course.objects.create(
                   name="course3",
@@ -82,6 +84,7 @@ class CourseListCountTest(TestCase):
                   wednesday = True,
                   thursday = False,
                   friday = True,
+                  course_id = '33333'
             )
 
       def test_number_of_objects(self):
@@ -107,6 +110,7 @@ class UploadPDFTest(TestCase):
                   wednesday = True,
                   thursday = False,
                   friday = True,
+                  course_id = '11111'
             )
 
             PDF.objects.create(

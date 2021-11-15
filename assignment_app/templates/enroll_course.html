@@ -4,18 +4,11 @@
 
 
 {% block content %}
-    <h2>Enroll in a Course!</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ enrolled_form|crispy }}
-        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Enroll</button>
-    </form>
-
-    <h2>Your current enrollments:</h2>
-    {% for enrollment in enrollments %}
-        <div class="row row-cols-xl-2 g-4">
+    <h2>{{ student_name }}'s current enrollments:</h2>
+    <div class="row row-cols-xl-4 g-4">
+        {% for enrollment in enrollments %}
             <div class="col d-flex justify-content-center w-100">
-                <a class="card text-center text-dark text-decoration-none" href="{% url 'app:coursedetail' enrollment.course.id %}" style="width: 18rem;">
+                <a class="card hover-card text-center text-dark text-decoration-none" href="{% url 'app:coursedetail' enrollment.course.course_id 'view' %}" style="width: 18rem;">
                     <div class="card-body">
                         <h4 class="card-title">{{enrollment.course.course_mnemonic}}</h4>
                         <p class="card-text m-0 fw-bold">{{enrollment.course.name}}</p>
@@ -32,6 +25,7 @@
                     </div>
                 </a>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
+
 {% endblock %}

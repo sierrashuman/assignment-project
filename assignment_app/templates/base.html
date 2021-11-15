@@ -1,5 +1,6 @@
 {% load static %}
 {% load bootstrap5 %}
+{% load studenttag %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
@@ -13,22 +14,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-1">
                 <li class="nav-item">
-                    <a class="nav-link" href="/app/inctag">Students Online</a>
+                    <a class="nav-link" href="{% url 'app:online_now' %}">Students Online</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/app/courses">Course List</a>
+                    <a class="nav-link" href="{% url 'app:courselist' %}">Course List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/app/pdf_list">PDF List</a>
+                    <a class="nav-link" href="{% url 'app:pdf_list' %}">PDF List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/app/upload_pdf">Upload a PDF</a>
+                    <a class="nav-link" href="{% url 'app:upload_pdf' %}">Upload a PDF</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/app/calendar">Calendar</a>
+                    <a class="nav-link" href="{% url 'app:calendar' %}">Calendar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/app/enroll_course">Enroll in a class</a>
+                    <a class="nav-link" href="{% url 'app:event_new' %}">New Event</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/enroll_course/{% get_student request %}">Your Enrollments</a>
                 </li> 
             </ul>
             <ul class="navbar-nav me-1">

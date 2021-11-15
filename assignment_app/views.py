@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.files.storage import FileSystemStorage
 from .models import Course, PDF, Enrollment
-from .forms import PDFForm, EnrollmentForm, StudentForm
+from .forms import PDFForm, StudentForm
 import datetime
 from datetime import date, timedelta
 import calendar
@@ -29,22 +29,9 @@ from .utils import Calendar
 # Create your views here.
 @login_required
 def index_view(request):
-    student_name = Student.objects.filter(user = request.user)[0].first_name
-    return render(request, 'appindex.html', {'student_name': student_name})
+    student = Student.objects.get(user = request.user)
+    return render(request, 'appindex.html', {'student_name': student.first_name, 'student_id': student.id})
 
-
-
-
-class CourseList(LoginRequiredMixin, generic.ListView):
-    model = Course
-    template_name = 'courselist.html'
-    context_object_name = 'course_list'
-
-    def get_queryset(self):
-        """
-        Return all courses
-        """
-        return Course.objects.all()
 
 @login_required
 def get_courses(request):
@@ -53,32 +40,74 @@ def get_courses(request):
     url = 'https://api.devhub.virginia.edu/v1/courses'
     data = requests.get(url).json()
     for course in data['class_schedules']['records']:
-        # Make sure its the current semester
-        if course[12] == '2021 Fall':
-            if course[0] == query:
-                # Change the days of the week to readable
-                days = []
-                for char in course[8]:
-                    if char == 'M':
-                        days.append("Monday")
-                    elif char == 'T':
-                        days.append("Tuesday")
-                    elif char == 'W':
-                        days.append("Wednesday")
-                    elif char == "R":
-                        days.append("Thursday")
-                    elif char == 'F':
-                        days.append("Friday")
-                course[8] = ', '.join(days)
-                to_return.append(course)
+        if query:
+            query_elements = query.split(' ')
+            # Make sure its the current semester
+            if course[12] == '2021 Fall':
+                if len(query_elements) == 2:
+                    if course[0] == query_elements[0] and course[1] == query_elements[1]:
+                        course[8] = translate_days(course[8])
+                        to_return.append(course)
+                else:
+                    if course[0] == query_elements[0] or query_elements[0] in course[6]:
+                        course[8] = translate_days(course[8])
+                        to_return.append(course)
     return render(request, 'courselist.html', {'courses': to_return})
 
-class CourseDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Course
-    template_name = 'coursedetail.html'
+def translate_days(day_string):
+    days=[]
+    for char in day_string:
+        if char == 'M':
+            days.append("Monday")
+        elif char == 'T':
+            days.append("Tuesday")
+        elif char == 'W':
+            days.append("Wednesday")
+        elif char == "R":
+            days.append("Thursday")
+        elif char == 'F':
+            days.append("Friday")
+    return ', '.join(days)
 
-    def get_queryset(self):
-        return Course.objects.all()
+
+@login_required
+def get_course_detailed_view(request, course_id, view):
+    if Course.objects.filter(course_id=course_id).exists():
+        course = Course.objects.get(course_id=course_id)
+    else:
+        url = 'https://api.devhub.virginia.edu/v1/courses'
+        data = requests.get(url).json()
+        for course in data['class_schedules']['records']:
+            if course[3] == course_id and course[12] == '2021 Fall':
+                course_info = course
+        course = Course(
+            name=course_info[4],
+            course_mnemonic = f"{course_info[0]} {course_info[1]}",
+            professor=' '.join(reversed(course_info[6].split(','))),
+            course_description=course_info[5],
+            start_time=course_info[9],
+            end_time=course_info[10],
+            monday = 'M' in course_info[8],
+            tuesday = 'T' in course_info[8],
+            wednesday = 'W' in course_info[8],
+            thursday = 'R' in course_info[8],
+            friday = 'F' in course_info[8],
+            course_id = int(course_id)
+        )
+        course.save()
+    student = Student.objects.get(user = request.user)
+    enrollment = Enrollment(
+        course=course,
+        student=student
+    )
+
+    is_enrolled = Enrollment.objects.filter(course=course, student=student).exists()
+    if not is_enrolled and view != 'view':
+        enrollment.save()
+        is_enrolled = True
+
+    return render(request, 'coursedetail.html', {'course': course, 'is_enrolled': is_enrolled})
+
 '''
 Declare function to render inclusiontag.html file
 to load inclusion tag
@@ -163,31 +192,19 @@ def event(request, event_id=None):
         #return HttpResponseRedirect(reverse('CalendarView'))
     return render(request, 'event.html', {'form': form})
 
-class EnrollList(LoginRequiredMixin, generic.ListView):
-    model = Enrollment
-    template_name = 'enroll_course.html'
-    context_object_name = 'enroll_course'
-
-    def get_queryset(self):
-        """
-        Return all enrollments
-        """
-        return Enrollment.objects.all()
 
 @login_required
-def enroll_course(request):
-    student = Student.objects.filter(user = request.user)[0]
-    enrollments = Enrollment.objects.filter(student = student)
-    if request.method == 'POST':
-        enrolled_form = EnrollmentForm(request.POST, student=student)
-        if enrolled_form.is_valid():
-            course = enrolled_form.save(commit=False)
-            course.student = student
-            course.save()
-            return redirect('/app/enroll_course')
-    else:
-        enrolled_form = EnrollmentForm(student=student)
-    return render(request, 'enroll_course.html', {'enrolled_form': enrolled_form, 'enrollments': enrollments})
+def enroll_course(request, pk):
+    student = Student.objects.get(id=pk)
+    enrollments = Enrollment.objects.filter(student=student)
+    return render(request, 'enroll_course.html', {'enrollments': enrollments, 'student_name': student.first_name})
+
+@login_required
+def unenroll_course(request, course_id):
+    student = Student.objects.get(user=request.user)
+    course = Course.objects.get(course_id=course_id)
+    Enrollment.objects.filter(student=student, course=course).delete()
+    return redirect(f'/app/courses/{course_id}/view')
 
 @login_required
 def student_initialization(request):
@@ -206,13 +223,12 @@ def student_initialization(request):
         student_form = StudentForm()
     return render(request, 'index.html', {'student_form': student_form})
 
-class CourseStudents(LoginRequiredMixin, generic.ListView):
-    model = Enrollment
-    template_name = 'coursestudents.html'
-    context_object_name = 'coursestudents'
 
-    def get_queryset(self):
-        """
-        Return all students
-        """
-        return Enrollment.objects.all()
+@login_required
+def get_course_students(request, course_id):
+    course = Course.objects.get(course_id=course_id)
+    enrollments = Enrollment.objects.filter(course=course)
+    students = []
+    for enrollment in enrollments:
+        students.append(enrollment.student)
+    return render(request, 'coursestudents.html', {'students': students, 'course': course})

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from ..models import Student
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from django import template
@@ -22,7 +23,9 @@ def get_all_logged_in_users():
         uid_list.append(data.get('_auth_user_id', None))
 
     # Query all logged in users based on id list
-    return User.objects.filter(id__in=uid_list)
+    users = User.objects.filter(id__in=uid_list)
+    students = Student.objects.filter(user__in=users)
+    return students
 
 
 # def display_even_numbers(a, b):
