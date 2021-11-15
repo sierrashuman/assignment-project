@@ -17,6 +17,7 @@ class Course(models.Model):
     wednesday = models.BooleanField()
     thursday = models.BooleanField()
     friday = models.BooleanField()
+    course_id = models.IntegerField(unique=True)
 
     def __str__(self):
         return self.name

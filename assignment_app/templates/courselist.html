@@ -3,9 +3,10 @@
 {% block content %}
 <div class="container">
     <form class="form w-25 d-flex mt-3" method="GET" action="" >
-        <input class="form-control" type="search" name="search"> 
+        <input class="form-control" type="search" name="search" placeholder="CS 3240"> 
         <button class="btn btn-primary" type="submit"> Search </button>
     </form>
+    <p class="w-50 m-auto text-center">Search for classes above using either the course abbreviation (CS), mnemonic (CS 3240), or professor last name (Sherriff)</p>
     <br>
     <table class="table">
         <thead>
@@ -14,6 +15,7 @@
             <th scope="column">Professor</th>
             <th scope="column">Time</th>
             <th scope="column">Days</th>
+            <th scope="column">View Course</th>
             <th scope="column">Join Course</th>
         </thead>
         <tbody>
@@ -25,7 +27,12 @@
                 <td>{{ course.9 }}-{{ course.10}}</td>
                 <td>{{ course.8 }}</td>
                 <td>
-                    <a href="{{ course.8 }}" class="btn btn-sm btn-primary">
+                    <a href="/app/courses/{{ course.3 }}/view" class="btn btn-sm btn-primary">
+                        View Course
+                    </a>
+                </td>
+                <td>
+                    <a href="/app/courses/{{ course.3 }}/join" class="btn btn-sm btn-primary">
                         Join Course
                     </a>
                 </td>

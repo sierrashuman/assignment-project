@@ -2,37 +2,68 @@
 
 {% block content %}
 <div class="container">
-    <br>
     <div class="row">
-        <h2>{{course.name}}</h2>
-        <ul>
-            <li>Course code: {{course.course_mnemonic}}</li>
-            <li>Professor: {{course.professor}}</li>
-            <li>Start time: {{course.start_time}}</li>
-            <li>End time: {{course.end_time}}</li>
-            <li>Days taught: </li>
-            <div class="text-center">
+        <h1 class="w-100 text-center text-warning" style="font-family: fantasy; font-size:200px;">{{course.course_mnemonic}}</h1>
+        <h2 class="w-100 text-center text-primary" style="font-family: fantasy; font-size:50px; margin-top:-75px">{{course.name}}</h2>
+        </div>
+        <div class="card-group">
+            <div class="card bg-warning text-center text-dark text-decoration-none" style="width: 18rem;">
+                <div class="card-header">Monday</div>
                 {% if course.monday %}
-                    <li>Monday</li>
-                    {% endif %}
-                {% if course.tuesday %}
-                    <li>Tuesday</li>
-                {% endif %}
-                {% if course.wednesday %}
-                    <li>Wednesday</li>
-                {% endif %}
-                {% if course.thursday %}
-                    <li>Thursday</li>
-                {% endif %}
-                {% if course.friday %}
-                    <li>Friday</li>
+                    <div class="card w-75 m-auto bg-primary mt-3 mb-3 text-white">
+                        <div class="card-header">{{course.start_time}}</div>
+                        <div class="card-footer">{{course.end_time}}</div>
+                    </div>
                 {% endif %}
             </div>
-            <br>
-            <a class="btn btn-secondary" href="{% url 'app:coursestudents' %}">Enrollment List</a>
-       </ul>
+            <div class="card bg-warning text-center text-dark text-decoration-none" style="width: 18rem;">
+                <div class="card-header">Tuesday</div>
+                {% if course.tuesday %}
+                    <div class="card w-75 m-auto bg-primary mt-3 mb-3 text-white">
+                        <div class="card-header">{{course.start_time}}</div>
+                        <div class="card-footer">{{course.end_time}}</div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card bg-warning text-center text-dark text-decoration-none" style="width: 18rem;">
+                <div class="card-header">Wednesday</div>
+                {% if course.wednesday %}
+                    <div class="card w-75 m-auto bg-primary mt-3 mb-3 text-white">
+                        <div class="card-header">{{course.start_time}}</div>
+                        <div class="card-footer">{{course.end_time}}</div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card bg-warning text-center text-dark text-decoration-none" style="width: 18rem;">
+                <div class="card-header">Thursday</div>
+                {% if course.thursday %}
+                    <div class="card w-75 m-auto bg-primary mt-3 mb-3 text-white">
+                        <div class="card-header">{{course.start_time}}</div>
+                        <div class="card-footer">{{course.end_time}}</div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card bg-warning text-center text-dark text-decoration-none" style="width: 18rem;">
+                <div class="card-header">Friday</div>
+                {% if course.friday %}
+                    <div class="card w-75 m-auto bg-primary mt-3 mb-3 text-white">
+                        <div class="card-header">{{course.start_time}}</div>
+                        <div class="card-footer">{{course.end_time}}</div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <h3 class="w-100 text-center text-primary mt-3" style="font-family: fantasy; font-size:30px;">Taught by {{course.professor}}</h3>
+        <div class="container d-flex flex-column align-items-center">
+            {% if is_enrolled %}
+                <div class="btn btn-success btn-lg m-1 enrolled">You're Enrolled!</div>
+                <a href="/app/courses/unenroll/{{course.course_id}}" class="btn btn-danger btn-lg m-1">Unenroll</a>
+            {% else %}
+                <a href="/app/courses/{{course.course_id}}/join"class="btn btn-success btn-lg m-1 enrolled">Enroll</a>
+            {% endif %}
+            <a class="btn btn-warning btn-lg m-1" href="{% url 'app:coursestudents' course.course_id %}">See Who's Enrolled</a>
+        </div>     
     </div>
 </div>
-   <!-- <a class="btn btn-primary" href="{% url 'app:coursestudents' %}">Enrollment List</a> -->
     <a class="btn btn-primary" href="{% url 'app:courselist' %}">Return to course list</a>
 {% endblock %}

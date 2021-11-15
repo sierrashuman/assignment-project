@@ -1,7 +1,15 @@
 {% if users %}
-<ul class="user-list">
-    {% for user in users %}
-    <li>{{ user }}</li>
+    {% for student in users %}
+    <tr>
+        <td>{{ student.first_name }} {{ student.last_name }}</td>
+        <td>{{ student.user.email }}</td>
+        <td>{{ student.grad_year }}</td>
+        <td>{{ student.major }}</td>
+        <td>
+            <a href="{% url 'app:enroll_course' student.id %}" class="btn btn-sm btn-primary">
+                View Enrollments
+            </a>
+        </td>
+    </tr>
     {% endfor %}
-</ul>
 {% endif %}

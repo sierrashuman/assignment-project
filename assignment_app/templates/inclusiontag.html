@@ -1,9 +1,20 @@
 {% extends "base.html" %}
+{% load inclusiontag %}
 
 {% block content %}
     <br>
     <h2>Students currently logged in:</h2>
+    <table class="table">
+        <thead>
+            <th scope="column">Name</th>
+            <th scope="column">Email</th>
+            <th scope="column">Graduation Year</th>
+            <th scope="column">Major</th>
+            <th scope="column">Link</th>
+        </thead>
+        <tbody>
+            {% render_logged_in_user_list %}
+        </tbody>
+    </table>
     <br>
-    {% load inclusiontag %}
-    {% render_logged_in_user_list %}
 {% endblock %}
