@@ -2,26 +2,36 @@
 
 {% block content %}
 <div class="container">
+    <form class="form w-25 d-flex mt-3" method="GET" action="" >
+        <input class="form-control" type="search" name="search"> 
+        <button class="btn btn-primary" type="submit"> Search </button>
+    </form>
     <br>
-    <div class="row">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
-            {% if course_list %}
-                <ul class="list-group">
-                {% for course in course_list %}
-                    <li class="list-group-item text-center"><h4><a href="{% url 'app:coursedetail' course.id %}">{{course.name}}</a></h4>
-                        Course code: {{course.mnemonic}} <br>
-                        Professor: {{course.professor}} <br>
-                        Start time: {{course.start_time}} <br>
-                        End time: {{course.end_time}} <br>
-                    </li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <p>No courses are available.</p>
-            {% endif %}
-        </div>
-        <div class="col-sm-4"></div>
-    </div>
+    <table class="table">
+        <thead>
+            <th scope="column">Course</th>
+            <th scope="column">Name</th>
+            <th scope="column">Professor</th>
+            <th scope="column">Time</th>
+            <th scope="column">Days</th>
+            <th scope="column">Join Course</th>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.0 }} {{course.1}}</td>
+                <td>{{ course.4 }}</td>
+                <td>{{ course.6 }}</td>
+                <td>{{ course.9 }}-{{ course.10}}</td>
+                <td>{{ course.8 }}</td>
+                <td>
+                    <a href="{{ course.8 }}" class="btn btn-sm btn-primary">
+                        Join Course
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

@@ -7,12 +7,31 @@
     <h2>Enroll in a Course!</h2>
     <form method="post">
         {% csrf_token %}
-        {{ student_form|crispy }}
-        <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Update</button>
-    </form>
-    <form method="post">
-        {% csrf_token %}
         {{ enrolled_form|crispy }}
         <button type="submit" class="btn btn-primary mt-2 m-auto w-100">Enroll</button>
     </form>
+
+    <h2>Your current enrollments:</h2>
+    {% for enrollment in enrollments %}
+        <div class="row row-cols-xl-2 g-4">
+            <div class="col d-flex justify-content-center w-100">
+                <a class="card text-center text-dark text-decoration-none" href="{% url 'app:coursedetail' enrollment.course.id %}" style="width: 18rem;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{enrollment.course.course_mnemonic}}</h4>
+                        <p class="card-text m-0 fw-bold">{{enrollment.course.name}}</p>
+                        <p class="card-text m-0">Professor: {{enrollment.course.professor}}</p>
+                        <p class="card-text m-0">Start Time: {{enrollment.course.start_time}}</p>
+                        <p class="card-text m-0">End Time: {{enrollment.course.end_time}}</p>
+                        <p class="card-text m-0">On
+                            {% if enrollment.course.monday %} Monday {% endif %}
+                            {% if enrollment.course.tuesday %} Tuesday {% endif %}
+                            {% if enrollment.course.wednesday %} Wednesday {% endif %}
+                            {% if enrollment.course.thursday %} Thursday {% endif %}
+                            {% if enrollment.course.friday %} Friday {% endif %}
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

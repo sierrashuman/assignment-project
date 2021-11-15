@@ -44,9 +44,13 @@ class Event(models.Model):
     
 
 class Student(models.Model):
+    from .list_models import GradYear, Majors
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    major = models.CharField(max_length=256)
-    grad_year = models.CharField(max_length=4)
+    major = models.CharField(max_length=256, choices=Majors.choices)
+    first_name = models.CharField(max_length=256)
+    last_name = models.CharField(max_length=256)
+    grad_year = models.CharField(max_length=4, choices=GradYear.choices)
 
     def __str__(self):
         return self.user.username
@@ -55,5 +59,8 @@ class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ["student", "course"]
+
     def __str__(self):
-        return self.student + "_" + self.course
+        return self.student.user.username + "_" + self.course.name

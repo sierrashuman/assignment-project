@@ -14,20 +14,28 @@ import datetime
 from datetime import date, timedelta
 import calendar
 from django.db import models
+from django.db import IntegrityError
 from django.utils.safestring import mark_safe
 from assignment_app.forms import EventForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+import requests
+import json
 
 from .models import *
 from .utils import Calendar
 
 # Create your views here.
+@login_required
+def index_view(request):
+    student_name = Student.objects.filter(user = request.user)[0].first_name
+    return render(request, 'appindex.html', {'student_name': student_name})
 
-class IndexView(generic.ListView):
-    model = Course
-    template_name = 'appindex.html'
 
 
-class CourseList(generic.ListView):
+
+class CourseList(LoginRequiredMixin, generic.ListView):
     model = Course
     template_name = 'courselist.html'
     context_object_name = 'course_list'
@@ -38,7 +46,34 @@ class CourseList(generic.ListView):
         """
         return Course.objects.all()
 
-class CourseDetailView(generic.DetailView):
+@login_required
+def get_courses(request):
+    to_return = []
+    query = request.GET.get('search')
+    url = 'https://api.devhub.virginia.edu/v1/courses'
+    data = requests.get(url).json()
+    for course in data['class_schedules']['records']:
+        # Make sure its the current semester
+        if course[12] == '2021 Fall':
+            if course[0] == query:
+                # Change the days of the week to readable
+                days = []
+                for char in course[8]:
+                    if char == 'M':
+                        days.append("Monday")
+                    elif char == 'T':
+                        days.append("Tuesday")
+                    elif char == 'W':
+                        days.append("Wednesday")
+                    elif char == "R":
+                        days.append("Thursday")
+                    elif char == 'F':
+                        days.append("Friday")
+                course[8] = ', '.join(days)
+                to_return.append(course)
+    return render(request, 'courselist.html', {'courses': to_return})
+
+class CourseDetailView(LoginRequiredMixin, generic.DetailView):
     model = Course
     template_name = 'coursedetail.html'
 
@@ -51,7 +86,7 @@ to load inclusion tag
 def inclusiontag(request):
     return render(request, "inclusiontag.html")
 
-
+@login_required
 def upload_pdf(request):
     if request.method == 'POST':
         form = PDFForm(request.POST, request.FILES)
@@ -65,7 +100,7 @@ def upload_pdf(request):
         form = PDFForm()
     return render(request, 'upload_pdf.html', {'form': form})
 
-class PDFList(generic.ListView):
+class PDFList(LoginRequiredMixin, generic.ListView):
     model = PDF
     template_name = 'pdf_list.html'
     context_object_name = 'pdf_list'
@@ -76,8 +111,7 @@ class PDFList(generic.ListView):
         """
         return PDF.objects.all()
 
-
-class CalendarView(generic.ListView):
+class CalendarView(LoginRequiredMixin, generic.ListView):
     model = Event
     template_name = 'assignment_app/calendar.html'
 
@@ -115,6 +149,7 @@ def next_month(d):
     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
     return month
 
+@login_required
 def event(request, event_id=None):
     instance = Event()
     if event_id:
@@ -127,8 +162,8 @@ def event(request, event_id=None):
         form.save()
         #return HttpResponseRedirect(reverse('CalendarView'))
     return render(request, 'event.html', {'form': form})
-    
-class EnrollList(generic.ListView):
+
+class EnrollList(LoginRequiredMixin, generic.ListView):
     model = Enrollment
     template_name = 'enroll_course.html'
     context_object_name = 'enroll_course'
@@ -139,25 +174,37 @@ class EnrollList(generic.ListView):
         """
         return Enrollment.objects.all()
 
+@login_required
 def enroll_course(request):
+    student = Student.objects.filter(user = request.user)[0]
+    enrollments = Enrollment.objects.filter(student = student)
     if request.method == 'POST':
-        enrolled_form = EnrollmentForm(request.POST)
-        student_form = StudentForm(request.POST)
+        enrolled_form = EnrollmentForm(request.POST, student=student)
         if enrolled_form.is_valid():
-            course = enrolled_form.save(commit=False)
-            course.save()
-            return
+            course = enrolled_form.save(commit=True)
+            return redirect('/app/enroll_course')
+    else:
+        enrolled_form = EnrollmentForm(student=student)
+    return render(request, 'enroll_course.html', {'enrolled_form': enrolled_form, 'enrollments': enrollments})
+
+@login_required
+def student_initialization(request):
+    student_created = Student.objects.filter(user = request.user).exists()
+    # Redirect to the main page if already have a student
+    if student_created:
+        return redirect('/app')
+    if request.method == 'POST':
+        student_form = StudentForm(request.POST)
         if student_form.is_valid():
             student = student_form.save(commit=False)
             student.user = request.user
             student.save()
-            return redirect('/app/enroll_course')
+            return redirect('/app')
     else:
-        enrolled_form = EnrollmentForm()
         student_form = StudentForm()
-    return render(request, 'enroll_course.html', {'enrolled_form': enrolled_form, 'student_form': student_form})
+    return render(request, 'index.html', {'student_form': student_form})
 
-class CourseStudents(generic.ListView):
+class CourseStudents(LoginRequiredMixin, generic.ListView):
     model = Enrollment
     template_name = 'coursestudents.html'
     context_object_name = 'coursestudents'
