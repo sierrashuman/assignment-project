@@ -181,7 +181,9 @@ def enroll_course(request):
     if request.method == 'POST':
         enrolled_form = EnrollmentForm(request.POST, student=student)
         if enrolled_form.is_valid():
-            course = enrolled_form.save(commit=True)
+            course = enrolled_form.save(commit=False)
+            course.student = student
+            course.save()
             return redirect('/app/enroll_course')
     else:
         enrolled_form = EnrollmentForm(student=student)
