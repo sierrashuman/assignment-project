@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.files.storage import FileSystemStorage
 from .models import Course, PDF, Enrollment
-from .forms import PDFForm, StudentForm
+from .forms import PDFForm, StudentForm, PDFCourseForm
 import datetime
 from datetime import date, timedelta
 import calendar
@@ -138,7 +138,10 @@ class PDFList(LoginRequiredMixin, generic.ListView):
         """
         Return all courses
         """
-        return PDF.objects.all()
+        pdfs_unsorted = PDF.objects.all()
+        pdfs_sorted = sorted(pdfs_unsorted, key = lambda i: i.datetime, reverse=True)
+
+        return pdfs_sorted
 
 class CalendarView(LoginRequiredMixin, generic.ListView):
     model = Event

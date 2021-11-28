@@ -20,7 +20,7 @@ class Course(models.Model):
     course_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.course_mnemonic} ({self.start_time}-{self.end_time})"
 
 class PDF(models.Model):
     title = models.CharField(max_length=256)

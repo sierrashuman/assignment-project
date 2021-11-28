@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
+<img style= "z-index: -1; opacity: 30%"class="w-100 position-absolute" src="{% static 'assignment_app/images/classroom.png' %}" alt="rotunda">
 <div class="container">
     <div class="row">
         <h1 class="w-100 text-center text-warning" style="font-family: fantasy; font-size:200px;">{{course.course_mnemonic}}</h1>
         <h2 class="w-100 text-center text-primary" style="font-family: fantasy; font-size:50px; margin-top:-75px">{{course.name}}</h2>
-        </div>
         <div class="card-group">
             <div class="card bg-warning text-center text-dark text-decoration-none" style="width: 18rem;">
                 <div class="card-header">Monday</div>
@@ -54,16 +56,69 @@
             </div>
         </div>
         <h3 class="w-100 text-center text-primary mt-3" style="font-family: fantasy; font-size:30px;">Taught by {{course.professor}}</h3>
-        <div class="container d-flex flex-column align-items-center">
+        <div class="row row-cols-xl-4 g-4">
             {% if is_enrolled %}
-                <div class="btn btn-success btn-lg m-1 enrolled">You're Enrolled!</div>
-                <a href="/app/courses/unenroll/{{course.course_id}}" class="btn btn-danger btn-lg m-1">Unenroll</a>
+                <div class="col d-flex justify-content-center">
+                    <a class="card hover-card text-center text-dark text-decoration-none" href="/app/courses/unenroll/{{course.course_id}}" style="width: 18rem;">
+                        <div class="card-body">
+                            <h4 class="card-title">Unenroll</h4>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" margin="auto" height="100" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>                            </svg>
+                            <p class="card-text">You're currently enrolled in this course, click on this card to unenroll.</p>
+                        </div>
+                    </a>
+                </div>
             {% else %}
-                <a href="/app/courses/{{course.course_id}}/join"class="btn btn-success btn-lg m-1 enrolled">Enroll</a>
+                <div class="col d-flex justify-content-center">
+                    <a class="card hover-card text-center text-dark text-decoration-none" href="/app/courses/{{course.course_id}}/join" style="width: 18rem;">
+                        <div class="card-body">
+                            <h4 class="card-title">Enroll</h4>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" margin="auto" height="100" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>                            </svg>
+                            <p class="card-text">You're not currently enrolled in this course, click on this card to do so.</p>
+                        </div>
+                    </a>
+                </div>
             {% endif %}
-            <a class="btn btn-warning btn-lg m-1" href="{% url 'app:coursestudents' course.course_id %}">See Who's Enrolled</a>
-        </div>     
+            <div class="col d-flex justify-content-center">
+                <a class="card hover-card text-center text-dark text-decoration-none" href="{% url 'app:pdf_list' %}" style="width: 18rem;">
+                    <div class="card-body">
+                        <h4 class="card-title">View PDFs</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" margin="auto" height="100" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+                            <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z"/>
+                        </svg>
+                        <p class="card-text">View a list of PDFs uploaded that are associated with this course.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <a class="card hover-card text-center text-dark text-decoration-none" href="{% url 'app:upload_pdf' %}" style="width: 18rem;">
+                    <div class="card-body">
+                        <h4 class="card-title">Upload a PDF</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" margin="auto" height="100" fill="currentColor" class="bi bi-file-earmark-font" viewBox="0 0 16 16">
+                            <path d="M10.943 6H5.057L5 8h.5c.18-1.096.356-1.192 1.694-1.235l.293-.01v5.09c0 .47-.1.582-.898.655v.5H9.41v-.5c-.803-.073-.903-.184-.903-.654V6.755l.298.01c1.338.043 1.514.14 1.694 1.235h.5l-.057-2z"/>
+                            <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                        </svg>
+                        <p class="card-text">Upload a PDF for this course to be viewed by other students and you.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <a class="card hover-card text-center text-dark text-decoration-none" href="{% url 'app:coursestudents' course.course_id %}" style="width: 18rem;">
+                    <div class="card-body">
+                        <h4 class="card-title">See Who's Enrolled</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" margin="auto" height="100" fill="currentColor" class="bi bi-file-earmark-font" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                        </svg>
+                        <p class="card-text">Check out a list of other students enrolled in this course.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
-    <a class="btn btn-primary" href="{% url 'app:courselist' %}">Return to course list</a>
+    <a class="btn btn-primary mt-3" href="{% url 'app:courselist' %}">Return to course list</a>
 {% endblock %}
