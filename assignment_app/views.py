@@ -187,9 +187,14 @@ def event(request, event_id=None):
         instance = Event()
     
     form = EventForm(request.POST or None, instance=instance)
-    if request.POST and form.is_valid():
+    if 'submit' in request.POST and form.is_valid():
         form.save()
-        #return HttpResponseRedirect(reverse('CalendarView'))
+        return HttpResponseRedirect('CalendarView')
+
+    elif 'delete' in request.POST:
+        instance.delete()
+        return HttpResponseRedirect('CalendarView')
+
     return render(request, 'event.html', {'form': form})
 
 
