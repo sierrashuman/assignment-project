@@ -191,7 +191,7 @@ def event(request, event_id=None):
         form.save()
         return HttpResponseRedirect('CalendarView')
 
-    elif 'delete' in request.POST:
+    elif 'delete' in request.POST and event_id != None:
         instance.delete()
         return HttpResponseRedirect('CalendarView')
 
