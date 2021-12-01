@@ -178,5 +178,8 @@ try:
         # Heroku
         import django_heroku
         django_heroku.settings(locals())
+
+        # Set http to https
+        SECURE_SSL_REDIRECT = True
 except ImportError:
     found = False
