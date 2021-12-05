@@ -41,3 +41,14 @@ Google Auth Tutorial
    * Author: Geoffrey Mungai
    * URL: https://www.section.io/engineering-education/django-google-oauth/
 
+Calendar Tutorial
+   * Title: "How To Create a Calendar Using Django"
+   * Date published: 7/29/2018
+   * Author: Hui Wen
+   * URL: https://www.huiwenteo.com/normal/2018/07/29/django-calendar-ii.html
+
+List of Authenticated Users
+   * Title: "How to get the list of the authenticated users?"
+   * Date published: 4/27/2010
+   * Author: GeReinhart
+   * URL: https://stackoverflow.com/questions/2723052/how-to-get-the-list-of-the-authenticated-users
