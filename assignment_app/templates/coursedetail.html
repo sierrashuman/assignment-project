@@ -83,7 +83,7 @@
                 </div>
             {% endif %}
             <div class="col d-flex justify-content-center">
-                <a class="card hover-card text-center text-dark text-decoration-none" href="{% url 'app:pdf_list' %}" style="width: 18rem;">
+                <a class="card hover-card text-center text-dark text-decoration-none" href="{% url 'app:pdf_list_subset' course.course_id %}" style="width: 18rem;">
                     <div class="card-body">
                         <h4 class="card-title">View PDFs</h4>
                         <svg xmlns="http://www.w3.org/2000/svg" width="100%" margin="auto" height="100" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">

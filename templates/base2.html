@@ -11,39 +11,56 @@
   {% bootstrap_messages %}
   
   <body>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
-          <a href="/" class="navbar-brand">The Assignment Organizer</a>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-1">
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:online_now' %}">Students Online</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:courselist' %}">Course List</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:pdf_list' %}">PDF List</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:upload_pdf' %}">Upload a PDF</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:calendar' %}">Calendar</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:event_new' %}">New Event</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/app/enroll_course/{% get_student request %}">Your Enrollments</a>
-              </li> 
-          </ul>
-          <ul class="navbar-nav me-1">
-              <li class="nav-item">
-                  <a class="nav-link" href="/logout">Logout</a>
-              </li>
-          </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+      <div class="container-fluid">
+          <button class="navbar-toggler flex-grow-sm-1 flex-grow-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <a href="/app/" class="navbar-brand">The Assignment Organizer</a>
+          <div class="collapse navbar-collapse" id="navbar">
+              <ul class="navbar-nav ms-1">
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'app:online_now' %}">
+                          Students Online
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'app:courselist' %}">
+                          Course List
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'app:pdf_list' %}">
+                          PDF List
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'app:upload_pdf' %}">
+                          Upload a PDF
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'app:calendar' %}">
+                          Calendar
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'app:event_new' %}">
+                          New Event
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/app/enroll_course/{% get_student request %}">
+                          Your Enrollments
+                      </a>
+                  </li> 
+                  <li class="nav-item">
+                      <a class="nav-link" href="/logout">Logout</a>
+                  </li>
+              </ul>
           </div>
-      </nav>
+      </div>
+  </nav>
   
   </body>
 

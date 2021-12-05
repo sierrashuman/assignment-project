@@ -3,6 +3,8 @@
 from datetime import datetime, timedelta
 from calendar import HTMLCalendar
 from .models import Event
+import calendar
+from datetime import date, timedelta
 
 class Calendar(HTMLCalendar):
 	def __init__(self, year=None, month=None):
@@ -40,3 +42,39 @@ class Calendar(HTMLCalendar):
 		for week in self.monthdays2calendar(self.year, self.month):
 			cal += f'{self.formatweek(week, events)}\n'
 		return cal
+
+# Utility functions to support calendar related progressions
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return date.today()
+
+def prev_month(d):
+    first = d.replace(day=1)
+    prev_month = first - timedelta(days=1)
+    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
+    return month
+
+def next_month(d):
+    days_in_month = calendar.monthrange(d.year, d.month)[1]
+    last = d.replace(day=days_in_month)
+    next_month = last + timedelta(days=1)
+    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
+    return month
+
+# function to convert day letters to full string
+def translate_days(day_string):
+	days = []
+	if 'M' in day_string:
+		days.append("Monday")
+	if 'T' in day_string:
+		days.append("Tuesday")
+	if 'W' in day_string:
+		days.append("Wednesday")
+	if 'R' in day_string:
+		days.append("Thursday")
+	if 'F' in day_string:
+		days.append("Friday")
+	
+	return ', '.join(days)
