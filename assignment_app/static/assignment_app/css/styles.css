@@ -65,3 +65,8 @@ a {
   color: --bs-success;
   cursor: normal;
 }
+
+#google-button {
+    margin-bottom:3px;
+    margin-right:5px;
+}
