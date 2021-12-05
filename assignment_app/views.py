@@ -194,13 +194,14 @@ class PDFList(LoginRequiredMixin, generic.ListView):
 # event: Create or delete a new calendar event
 class CalendarView(LoginRequiredMixin, generic.ListView):
     model = Event
-    template_name = 'assignment_app/calendar.html'
+    template_name = 'calendar.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # use today's date for the calendar
-        d = get_date(self.request.GET.get('day', None))
+        print(self.kwargs.get('month'))
+        d = get_date(self.kwargs.get('month', None))
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         # Instantiate our calendar class with today's year and date
@@ -213,9 +214,11 @@ class CalendarView(LoginRequiredMixin, generic.ListView):
 
 @login_required
 def event(request, event_id=None):
+    edit = False
     instance = Event()
     if event_id:
         instance = get_object_or_404(Event, pk=event_id)
+        edit = True
     else:
         instance = Event()
     
@@ -228,4 +231,4 @@ def event(request, event_id=None):
         instance.delete()
         return HttpResponseRedirect('CalendarView')
 
-    return render(request, 'event.html', {'form': form})
+    return render(request, 'event.html', {'form': form, 'edit': edit})

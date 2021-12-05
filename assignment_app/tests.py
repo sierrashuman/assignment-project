@@ -170,11 +170,11 @@ class MonthUtilsTest(TestCase):
             self.assertEquals(expected_date, returned_date)
       
       def test_prev_month_none_param(self):
-            expected_string = 'month=2021-7'
+            expected_string = '2021-7'
             returned_string = prev_month(datetime.date(2021, 8, 17))
             self.assertEquals(expected_string, returned_string)
       
       def test_next_month_with_param(self):
-            expected_string =  'month=2021-9'
+            expected_string =  '2021-9'
             returned_string = next_month(datetime.date(2021, 8, 17))
             self.assertEquals(expected_string, returned_string)
