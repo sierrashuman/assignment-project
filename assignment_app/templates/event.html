@@ -1,4 +1,4 @@
-{% extends 'base2.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
 Event
@@ -10,8 +10,12 @@ Event
   {% csrf_token %}
   <table class="form form-table">
     {{ form }}
-    <td colspan="2"><button type="submit" class="btn btn-info right" name="submit"> Add </button></td>
-    <td colspan="2"><button type="submit" class="btn btn-info right" name="delete"> Delete </button></td>
+    {% if edit %}
+      <td colspan="2"><button type="submit" class="btn btn-primary right" name="submit"> Save </button></td>
+      <td colspan="2"><button type="submit" class="btn btn-primary right" name="delete"> Delete </button></td>
+    {% else %}
+      <td colspan="2"><button type="submit" class="btn btn-primary right" name="submit"> Add </button></td>
+    {% endif %}
   </table>
 </form>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 from .models import Course, PDF, Enrollment
+from .utils import translate_days, get_date, next_month, prev_month
 import datetime
 
 # NOTE: All tests must start with the word 'test'
@@ -117,7 +118,7 @@ class UploadPDFTest(TestCase):
                   title="test_pdf",
                   course=course,
                   uploader=user,
-                  datetime=datetime.datetime.strptime('2021-11-01', '%Y-%m-%d'),
+                  datetime=datetime.datetime.strptime('2021-11-01, 12:12:12', '%Y-%m-%d, %H:%M:%S'),
                   pdf_file="fake/pdf/url"
             )
 
@@ -125,3 +126,55 @@ class UploadPDFTest(TestCase):
             pdf = PDF.objects.get(title="test_pdf")
             self.assertEquals(pdf.course.name, 'test_course')
             self.assertEquals(pdf.uploader.username, 'bob')
+
+class TranslateDaysTest(TestCase):
+      def setUp(self):
+            pass # no setup to do
+
+      def test_MWF(self):
+            test_string = 'MWF'
+            expected_string = "Monday, Wednesday, Friday"
+            returned_string = translate_days(test_string)
+            self.assertEquals(expected_string, returned_string)
+      
+      def test_TTh(self):
+            test_string = 'TR'
+            expected_string = "Tuesday, Thursday"
+            returned_string = translate_days(test_string)
+            self.assertEquals(expected_string, returned_string)
+      
+      def test_out_of_order(self):
+            test_string = 'FRWTM'
+            expected_string = "Monday, Tuesday, Wednesday, Thursday, Friday"
+            returned_string = translate_days(test_string)
+            self.assertEquals(expected_string, returned_string)
+      
+      def test_empty(self):
+            test_string = ''
+            expected_string = ""
+            returned_string = translate_days(test_string)
+            self.assertEquals(expected_string, returned_string)
+
+class MonthUtilsTest(TestCase):
+      def setUp(self):
+            pass # no setup to do
+
+      def test_get_date_none_param(self):
+            expected_date = datetime.date.today()
+            returned_date = get_date(None)
+            self.assertEquals(expected_date, returned_date)
+      
+      def test_get_date_with_param(self):
+            expected_date = datetime.date(2021, 8, 1)
+            returned_date = get_date('2021-08')
+            self.assertEquals(expected_date, returned_date)
+      
+      def test_prev_month_none_param(self):
+            expected_string = '2021-7'
+            returned_string = prev_month(datetime.date(2021, 8, 17))
+            self.assertEquals(expected_string, returned_string)
+      
+      def test_next_month_with_param(self):
+            expected_string =  '2021-9'
+            returned_string = next_month(datetime.date(2021, 8, 17))
+            self.assertEquals(expected_string, returned_string)

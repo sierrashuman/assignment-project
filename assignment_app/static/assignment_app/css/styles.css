@@ -13,7 +13,7 @@
   padding: 10px;
   text-align: center;
   font-size: 18px;
-  color: rgb(123, 195, 198);
+  color: #0d6efd;
 }
 
 .calendar td {
@@ -36,7 +36,7 @@ ul {
 }
 
 a {
-  color: #17a2b8;
+  color: #0d6efd;
 }
 
 .form {
@@ -45,7 +45,7 @@ a {
 
 .form input, .form select, .form textarea {
   border-radius: 5px;
-  border: 1px solid #17a2b8;
+  border: 1px solid #0d6efd;
   outline: none;
   background: none;
   padding: 5px;
