@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import auth
 from .models import Course, PDF, Enrollment
 from .utils import translate_days, get_date, next_month, prev_month
+from django.urls import reverse
 import datetime
 
 # NOTE: All tests must start with the word 'test'
@@ -126,6 +127,20 @@ class UploadPDFTest(TestCase):
             pdf = PDF.objects.get(title="test_pdf")
             self.assertEquals(pdf.course.name, 'test_course')
             self.assertEquals(pdf.uploader.username, 'bob')
+
+class CalendarViewTestCase(TestCase):      
+      def setUp(self):
+            User = get_user_model()
+            user = User.objects.create(username='bob')
+            user.set_password('Bob!14')
+            user.save()
+            c = Client()
+            c.login(username='bob', password='Bob!14')
+
+      def test_view_uses_correct_template(self):
+            url = reverse('app:calendar')
+            response = self.client.get(url, follow=True)
+            self.assertTemplateUsed(response, 'bootstrap5/messages.html') 
 
 class TranslateDaysTest(TestCase):
       def setUp(self):
