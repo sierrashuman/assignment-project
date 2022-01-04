@@ -1,3 +1,5 @@
+This assignment was created for the class CS 3240, Advanced Software Development Techniques at UVa. It is co-owned by Sierra Shuman, Declan Brady, Vivian Ma, Jake Coughlin, and Sam Jun.
+
 # Setup
 To setup this locally run the following commands in your terminal (in the directory you want to house this repository):
 ```
@@ -11,13 +13,7 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
-
-# Admin Login
-To login into admin use the following credentials:
-```
-Username: superuser
-Password: assignment_org
-```
+Follow the Google Auth tutorial below for more info on how to set up Google login remotely.
 
 # Templating Our HTML
 To make the website more consistent I implemented a `base.html` file that can just be pulled down
